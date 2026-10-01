@@ -136,8 +136,11 @@ export async function apiCreateRequest(data: {
   service_id: string;
   property_type: string;
   location: string;
+  pincode?: string;
+  built_up_area?: number;
   preferred_date?: string;
   notes?: string;
+  media_urls?: string;
 }) {
   return apiFetch("/requests", { method: "POST", body: JSON.stringify(data) });
 }

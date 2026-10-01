@@ -85,8 +85,11 @@ class ServiceRequestCreate(BaseModel):
     service_id: uuid.UUID
     property_type: str
     location: str
+    pincode: Optional[str] = None
+    built_up_area: Optional[float] = None
     preferred_date: Optional[date] = None
     notes: Optional[str] = None
+    media_urls: Optional[str] = None
 
 
 class StatusUpdate(BaseModel):
@@ -124,8 +127,13 @@ class ServiceRequestOut(BaseModel):
     service_id: uuid.UUID
     property_type: str
     location: str
+    pincode: Optional[str] = None
+    built_up_area: Optional[float] = None
     preferred_date: Optional[date]
     notes: Optional[str]
+    media_urls: Optional[str] = None
+    professional_charge: Optional[float] = None
+    message: Optional[str] = None
     status: str
     created_at: datetime
     updated_at: datetime

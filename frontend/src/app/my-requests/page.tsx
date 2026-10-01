@@ -6,8 +6,8 @@ import Link from "next/link";
 import { apiGetMyRequests } from "@/lib/api";
 import { ClipboardList, ChevronRight, Clock, CheckCircle2, Circle } from "lucide-react";
 
-const PIPELINE_STEPS = ["submitted", "assessed", "in_progress", "completed"];
-const getStepLabel = (s: string) => ({ submitted: "Submitted", assessed: "Assessed", in_progress: "In Progress", completed: "Completed" }[s] || s);
+const PIPELINE_STEPS = ["sent", "company_viewed", "payment_booking", "in_progress"];
+const getStepLabel = (s: string) => ({ sent: "Sent", company_viewed: "Company Viewed", payment_booking: "Payment & Booking", in_progress: "In Progress" }[s] || s);
 
 export default function MyRequestsPage() {
   const router = useRouter();
@@ -17,10 +17,21 @@ export default function MyRequestsPage() {
   useEffect(() => {
     const token = sessionStorage.getItem("rehab_token") || localStorage.getItem("rehab_token");
     if (!token) { router.push("/login"); return; }
-    apiGetMyRequests()
-      .then(setRequests)
-      .catch(() => router.push("/login"))
-      .finally(() => setLoading(false));
+
+    const fetchRequests = () => {
+      apiGetMyRequests()
+        .then(setRequests)
+        .catch(() => router.push("/login"))
+        .finally(() => setLoading(false));
+    };
+
+    fetchRequests();
+
+    const intervalId = setInterval(() => {
+      apiGetMyRequests().then(setRequests).catch(console.error);
+    }, 3000);
+
+    return () => clearInterval(intervalId);
   }, [router]);
 
   if (loading) return (
@@ -63,7 +74,7 @@ export default function MyRequestsPage() {
                         </div>
                         <h3 className="font-heading text-xl md:text-2xl font-bold text-navy-deep">{req.service?.name || "Unknown Service"}</h3>
                       </div>
-                      <span className={`inline-flex text-sm px-3 py-1 rounded-full font-medium w-max ${req.status === "completed" ? "bg-teal/10 text-teal" : req.status === "in_progress" ? "bg-gold/10 text-gold" : "bg-navy/10 text-navy"}`}>
+                      <span className={`inline-flex text-sm px-3 py-1 rounded-full font-medium w-max ${req.status === "in_progress" ? "bg-teal/10 text-teal" : req.status === "payment_booking" ? "bg-gold/10 text-gold" : "bg-navy/10 text-navy"}`}>
                         {getStepLabel(req.status)}
                       </span>
                     </div>
@@ -92,6 +103,14 @@ export default function MyRequestsPage() {
                     <div><span className="text-gray-500 font-medium">Location:</span> <span className="text-navy font-semibold">{req.location}</span></div>
                     {req.preferred_date && <div><span className="text-gray-500 font-medium">Pref. Date:</span> <span className="text-navy font-semibold">{req.preferred_date}</span></div>}
                   </div>
+                  {req.message && req.status !== "sent" && (
+                    <div className="bg-blue-50 px-6 py-5 border-t border-blue-100">
+                      <p className="text-blue-900 text-sm font-medium mb-4">{req.message}</p>
+                      <button className="bg-gold hover:bg-yellow-500 text-navy-deep font-bold py-2 px-6 rounded-lg text-sm shadow-sm transition-colors">
+                        Pay & Book Slot
+                      </button>
+                    </div>
+                  )}
                 </div>
               );
             })}

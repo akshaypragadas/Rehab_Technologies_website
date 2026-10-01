@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from sqlalchemy.orm import Session, joinedload
 from typing import List
 import random
+import asyncio
 from datetime import datetime
-from app.database import get_db
+from app.database import get_db, SessionLocal
 from app import models, schemas
 from app.auth import get_current_user, require_admin
 
@@ -16,9 +17,22 @@ def generate_request_id() -> str:
     return f"REQ-{year}-{num}"
 
 
+async def simulate_company_viewed(request_id: str):
+    await asyncio.sleep(10)
+    db = SessionLocal()
+    try:
+        req = db.query(models.ServiceRequest).filter(models.ServiceRequest.id == request_id).first()
+        if req and req.status == "sent":
+            req.status = "company_viewed"
+            db.commit()
+    finally:
+        db.close()
+
+
 @router.post("", response_model=schemas.ServiceRequestOut, status_code=201)
 def create_request(
     payload: schemas.ServiceRequestCreate,
+    background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
 ):
@@ -31,19 +45,39 @@ def create_request(
     while db.query(models.ServiceRequest).filter(models.ServiceRequest.id == req_id).first():
         req_id = generate_request_id()
 
+    professional_charge = None
+    if payload.built_up_area is not None:
+        if payload.built_up_area < 150:
+            professional_charge = 1500
+        elif payload.built_up_area <= 1000:
+            professional_charge = 6500
+        else:
+            professional_charge = payload.built_up_area * 6.50
+    
+    message = None
+    if professional_charge is not None:
+        message = f"By seeing the pictorial problem and built up area of your building, our building diagnostic site visit and primary report professional charge will be rupees {professional_charge}. Please pay to book your slot."
+
     req = models.ServiceRequest(
         id=req_id,
         user_id=current_user.id,
         service_id=payload.service_id,
         property_type=payload.property_type,
         location=payload.location,
+        pincode=payload.pincode,
+        built_up_area=payload.built_up_area,
         preferred_date=payload.preferred_date,
         notes=payload.notes,
-        status="submitted",
+        media_urls=payload.media_urls,
+        professional_charge=professional_charge,
+        message=message,
+        status="sent",
     )
     db.add(req)
     db.commit()
     db.refresh(req)
+    
+    background_tasks.add_task(simulate_company_viewed, req_id)
     
     # Load relationships
     return db.query(models.ServiceRequest).options(
@@ -156,7 +190,7 @@ def update_request_status(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
 ):
-    valid_statuses = ["submitted", "assessed", "in_progress", "completed"]
+    valid_statuses = ["sent", "company_viewed", "payment_booking", "in_progress"]
     if payload.status not in valid_statuses:
         raise HTTPException(status_code=400, detail=f"Invalid status. Must be one of: {valid_statuses}")
 

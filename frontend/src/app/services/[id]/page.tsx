@@ -13,7 +13,19 @@ export default function RequestServicePage() {
   const [successId, setSuccessId] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [formData, setFormData] = useState({ property_type: "Residential", location: "", preferred_date: "", notes: "" });
+  const [formData, setFormData] = useState({ property_type: "Residential", location: "", pincode: "", built_up_area: "", preferred_date: "", notes: "" });
+  const [fileBase64, setFileBase64] = useState<string>("");
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFileBase64(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   useEffect(() => {
     const token = sessionStorage.getItem("rehab_token") || localStorage.getItem("rehab_token");
@@ -34,8 +46,11 @@ export default function RequestServicePage() {
         service_id: service.id,
         property_type: formData.property_type,
         location: formData.location,
+        pincode: formData.pincode || undefined,
+        built_up_area: formData.built_up_area ? parseFloat(formData.built_up_area) : undefined,
         preferred_date: formData.preferred_date || undefined,
         notes: formData.notes || undefined,
+        media_urls: fileBase64 || undefined,
       });
       setSuccessId(req.id);
     } catch (err: any) {
@@ -87,6 +102,16 @@ export default function RequestServicePage() {
                 <label className="block text-sm font-medium text-navy mb-1.5">City / Location</label>
                 <input type="text" required className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-gold sm:text-sm" placeholder="e.g. Downtown, Mumbai" value={formData.location} onChange={e => setFormData({ ...formData, location: e.target.value })} />
               </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-navy mb-1.5">Pincode</label>
+                  <input type="text" className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-gold sm:text-sm" placeholder="e.g. 400001" value={formData.pincode} onChange={e => setFormData({ ...formData, pincode: e.target.value })} />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-navy mb-1.5">Built-up Area (Sq Ft or Acres)</label>
+                  <input type="number" step="0.01" className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-gold sm:text-sm" placeholder="e.g. 150" value={formData.built_up_area} onChange={e => setFormData({ ...formData, built_up_area: e.target.value })} />
+                </div>
+              </div>
               <div>
                 <label className="block text-sm font-medium text-navy mb-1.5">Preferred Date (Optional)</label>
                 <input type="date" className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-gold sm:text-sm" value={formData.preferred_date} onChange={e => setFormData({ ...formData, preferred_date: e.target.value })} />
@@ -94,6 +119,10 @@ export default function RequestServicePage() {
               <div>
                 <label className="block text-sm font-medium text-navy mb-1.5">Additional Notes</label>
                 <textarea rows={4} className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-gold sm:text-sm resize-none" placeholder="Briefly describe the issue..." value={formData.notes} onChange={e => setFormData({ ...formData, notes: e.target.value })} />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-navy mb-1.5">Upload Photos/Videos</label>
+                <input type="file" accept="image/*" onChange={handleFileChange} className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-teal/10 file:text-teal hover:file:bg-teal/20" />
               </div>
               <div className="pt-4">
                 <button type="submit" disabled={submitting} className="w-full flex justify-center items-center py-3.5 px-4 border border-transparent rounded-lg shadow-md text-base font-bold text-navy-deep bg-gold hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gold transition-colors disabled:opacity-60">

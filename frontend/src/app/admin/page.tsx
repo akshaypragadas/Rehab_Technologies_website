@@ -38,6 +38,7 @@ export default function AdminPage() {
   const [services, setServices] = useState<any[]>([]);
   const [employees, setEmployees] = useState<any[]>([]);
   const [updating, setUpdating] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   // Toast
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
@@ -257,7 +258,16 @@ export default function AdminPage() {
                           </td>
                           <td className="px-6 py-4">
                             <div className="font-bold text-navy-deep mb-1 text-xs">{req.service?.name}</div>
-                            <div className="text-xs text-concrete">{req.property_type} · {req.location}</div>
+                            <div className="text-xs text-concrete mb-1">{req.property_type} · {req.location} {req.pincode ? `· ${req.pincode}` : ''}</div>
+                            {req.built_up_area && <div className="text-xs text-concrete mb-1">Area: {req.built_up_area}</div>}
+                            {req.professional_charge && <div className="text-xs text-gold font-bold">Charge: ₹{req.professional_charge}</div>}
+                            {req.media_urls && req.media_urls.startsWith("data:image") && (
+                              <div className="mt-2">
+                                <button type="button" onClick={() => setSelectedImage(req.media_urls)} title="Click to view image">
+                                  <img src={req.media_urls} alt="Uploaded" className="w-16 h-16 object-cover rounded border border-gray-200 hover:opacity-80 transition-opacity" />
+                                </button>
+                              </div>
+                            )}
                           </td>
                           <td className="px-6 py-4 min-w-[180px]">
                             {/* Assignee chips */}
@@ -515,6 +525,16 @@ export default function AdminPage() {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+      
+      {/* ── Image Viewer Modal ── */}
+      {selectedImage && (
+        <div className="fixed inset-0 bg-navy-deep/90 backdrop-blur-sm z-[100] flex justify-center items-center p-4" onClick={() => setSelectedImage(null)}>
+          <div className="relative max-w-4xl max-h-full">
+            <button onClick={() => setSelectedImage(null)} className="absolute -top-10 right-0 text-white hover:text-gold transition-colors"><X className="w-8 h-8" /></button>
+            <img src={selectedImage} alt="Fullscreen View" className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" onClick={e => e.stopPropagation()} />
           </div>
         </div>
       )}

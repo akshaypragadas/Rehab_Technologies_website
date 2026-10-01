@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime
-from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, Date, Text, Enum
+from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, Date, Text, Enum, Float
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from app.database import Base
@@ -14,10 +14,10 @@ class UserRole(str, enum.Enum):
 
 
 class RequestStatus(str, enum.Enum):
-    submitted = "submitted"
-    assessed = "assessed"
+    sent = "sent"
+    company_viewed = "company_viewed"
+    payment_booking = "payment_booking"
     in_progress = "in_progress"
-    completed = "completed"
 
 
 class User(Base):
@@ -68,9 +68,14 @@ class ServiceRequest(Base):
     service_id = Column(UUID(as_uuid=True), ForeignKey("services.id"), nullable=False)
     property_type = Column(String, nullable=False)
     location = Column(String, nullable=False)
+    pincode = Column(String, nullable=True)
+    built_up_area = Column(Float, nullable=True)
     preferred_date = Column(Date, nullable=True)
     notes = Column(Text, nullable=True)
-    status = Column(String, default="submitted", nullable=False)
+    media_urls = Column(Text, nullable=True)
+    professional_charge = Column(Float, nullable=True)
+    message = Column(Text, nullable=True)
+    status = Column(String, default="sent", nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
