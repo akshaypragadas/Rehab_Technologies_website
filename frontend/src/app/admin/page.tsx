@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { 
   apiGetAllRequests, apiUpdateRequestStatus, 
-  apiGetAllServices, apiUpdateService, apiDeleteService,
+  apiGetAllServices, apiUpdateService, apiDeleteService, apiCreateService,
   apiGetEmployees, apiCreateEmployee, apiUpdateEmployee, apiDeleteEmployee, apiAssignEmployees
 } from "@/lib/api";
 import { LayoutDashboard, Settings, Edit, Trash2, RefreshCw, Users, UserPlus, LogOut, UserCheck, X, CheckCircle2, XCircle } from "lucide-react";
@@ -43,6 +43,11 @@ export default function AdminPage() {
   // Toast
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
   const showToast = (message: string, type: "success" | "error" = "success") => setToast({ message, type });
+
+  // Service Form State
+  const [showServiceForm, setShowServiceForm] = useState(false);
+  const [serviceForm, setServiceForm] = useState({ name: "", description: "" });
+  const [serviceSaving, setServiceSaving] = useState(false);
 
   // Employee Form State
   const [showEmpForm, setShowEmpForm] = useState(false);
@@ -104,6 +109,21 @@ export default function AdminPage() {
       loadServices();
       showToast("Service deleted");
     } catch (e: any) { showToast(e.message, "error"); }
+  };
+
+  const handleSaveService = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setServiceSaving(true);
+    try {
+      await apiCreateService({ ...serviceForm, icon: "Wrench", is_active: true });
+      showToast(`Service "${serviceForm.name}" added`);
+      setShowServiceForm(false);
+      loadServices();
+    } catch (e: any) {
+      showToast(e.message, "error");
+    } finally {
+      setServiceSaving(false);
+    }
   };
 
   const handleSaveEmployee = async (e: React.FormEvent) => {
@@ -315,7 +335,15 @@ export default function AdminPage() {
           {/* ── Services Tab ── */}
           {activeTab === "services" && (
             <div>
-              <h1 className="font-heading text-3xl font-bold text-navy-deep uppercase mb-8">Manage Services</h1>
+              <div className="flex items-center justify-between mb-8">
+                <h1 className="font-heading text-3xl font-bold text-navy-deep uppercase">Manage Services</h1>
+                <button
+                  onClick={() => { setServiceForm({ name: "", description: "" }); setShowServiceForm(true); }}
+                  className="flex items-center gap-2 bg-navy text-white px-4 py-2 rounded-lg text-sm font-bold shadow-sm hover:bg-navy-deep transition-colors"
+                >
+                  <UserPlus className="w-4 h-4" /> Add Service
+                </button>
+              </div>
               <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                 <table className="w-full text-sm text-left text-gray-500">
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-100">
@@ -327,17 +355,34 @@ export default function AdminPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {services.map(service => (
+                    {[
+                      { id: 's1', name: "Condition Survey & Health Monitoring", description: "Data-driven insights for informed decisions on structural health.", is_active: true, is_fixed: true },
+                      { id: 's2', name: "Investigation & Diagnosis", description: "Advanced NDT, material & structural investigation.", is_active: true, is_fixed: true },
+                      { id: 's3', name: "Repair Engineering & Design", description: "Advanced solutions for durable results and restoration.", is_active: true, is_fixed: true },
+                      { id: 's4', name: "Rehabilitation & Refurbishment", description: "Scientific solutions for enhancing load-carrying capacity & safety.", is_active: true, is_fixed: true },
+                      { id: 's5', name: "Waterproofing & Protection", description: "Protecting structures against severe seepage and extending life.", is_active: true, is_fixed: true },
+                      { id: 's6', name: "Project Management & Quality Control", description: "Execution with sophisticated machinery and validated technicians.", is_active: true, is_fixed: true },
+                      ...services
+                    ].map(service => (
                       <tr key={service.id} className="bg-white border-b border-gray-50 hover:bg-gray-50/50">
-                        <td className="px-6 py-4 font-bold text-navy-deep">{service.name}</td>
+                        <td className="px-6 py-4 font-bold text-navy-deep flex items-center gap-2">
+                          {service.name}
+                          {service.is_fixed && <span className="text-[10px] bg-gold/10 text-gold px-2 py-0.5 rounded uppercase tracking-widest">Built-in</span>}
+                        </td>
                         <td className="px-6 py-4 text-xs">{service.description}</td>
                         <td className="px-6 py-4 text-center">
-                          <button onClick={() => handleToggleService(service)} className={clsx("px-3 py-1 text-xs font-bold rounded-full transition-colors", service.is_active ? "bg-teal/10 text-teal hover:bg-teal/20" : "bg-gray-100 text-gray-500 hover:bg-gray-200")}>
+                          <button 
+                            onClick={() => !service.is_fixed && handleToggleService(service)} 
+                            disabled={service.is_fixed}
+                            className={clsx("px-3 py-1 text-xs font-bold rounded-full transition-colors", service.is_active ? "bg-teal/10 text-teal hover:bg-teal/20" : "bg-gray-100 text-gray-500 hover:bg-gray-200", service.is_fixed && "opacity-60 cursor-not-allowed")}
+                          >
                             {service.is_active ? "Active" : "Inactive"}
                           </button>
                         </td>
                         <td className="px-6 py-4 text-right">
-                          <button onClick={() => handleDeleteService(service.id)} className="p-2 text-gray-400 hover:text-danger bg-gray-50 rounded transition-colors"><Trash2 className="w-4 h-4" /></button>
+                          {!service.is_fixed && (
+                            <button onClick={() => handleDeleteService(service.id)} className="p-2 text-gray-400 hover:text-danger bg-gray-50 rounded transition-colors"><Trash2 className="w-4 h-4" /></button>
+                          )}
                         </td>
                       </tr>
                     ))}
@@ -442,6 +487,34 @@ export default function AdminPage() {
                 <button type="button" onClick={() => { setShowEmpForm(false); setEmpFormError(""); }} className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-bold text-concrete hover:bg-gray-50 transition-colors">Cancel</button>
                 <button type="submit" disabled={empSaving} className="flex-1 px-4 py-2.5 bg-gold hover:bg-yellow-500 rounded-lg text-sm font-bold text-navy-deep shadow-sm transition-colors disabled:opacity-60">
                   {empSaving ? "Saving..." : empForm.id ? "Save Changes" : "Add Employee"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ── Service Add Modal ── */}
+      {showServiceForm && (
+        <div className="fixed inset-0 bg-navy-deep/70 backdrop-blur-sm z-50 flex justify-center items-center p-4" onClick={e => { if (e.target === e.currentTarget) setShowServiceForm(false); }}>
+          <div className="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl animate-[scaleIn_0.2s_ease-out]">
+            <div className="bg-navy p-6 flex items-center justify-between">
+              <h3 className="text-xl font-bold text-white">Add New Service</h3>
+              <button onClick={() => setShowServiceForm(false)} className="text-white/60 hover:text-white transition-colors"><X className="w-5 h-5" /></button>
+            </div>
+            <form onSubmit={handleSaveService} className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-navy-deep mb-1">Service Name</label>
+                <input required type="text" className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-gold focus:border-gold sm:text-sm" placeholder="e.g. Waterproofing" value={serviceForm.name} onChange={e => setServiceForm({...serviceForm, name: e.target.value})} />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-navy-deep mb-1">Description</label>
+                <textarea required rows={3} className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-gold focus:border-gold sm:text-sm" placeholder="Details about this service..." value={serviceForm.description} onChange={e => setServiceForm({...serviceForm, description: e.target.value})} />
+              </div>
+              <div className="pt-2 flex gap-3">
+                <button type="button" onClick={() => setShowServiceForm(false)} className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-bold text-concrete hover:bg-gray-50 transition-colors">Cancel</button>
+                <button type="submit" disabled={serviceSaving} className="flex-1 px-4 py-2.5 bg-gold hover:bg-yellow-500 rounded-lg text-sm font-bold text-navy-deep shadow-sm transition-colors disabled:opacity-60">
+                  {serviceSaving ? "Saving..." : "Add Service"}
                 </button>
               </div>
             </form>

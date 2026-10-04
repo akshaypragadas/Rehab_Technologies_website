@@ -13,18 +13,45 @@ export default function Navigation() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [adminLoggedIn, setAdminLoggedIn] = useState(false);
   const [role, setRole] = useState<string | null>(null);
+  const [activeSection, setActiveSection] = useState("/#home");
 
   useEffect(() => {
     setLoggedIn(!!(sessionStorage.getItem("rehab_token") || localStorage.getItem("rehab_token")));
     setAdminLoggedIn(!!(sessionStorage.getItem("rehab_admin_token") || localStorage.getItem("rehab_admin_token")));
     setRole(sessionStorage.getItem("rehab_role"));
-  }, [pathname]); // re-check on every page change
+  }, [pathname]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.location.pathname !== "/") return;
+      const sections = ["home", "about", "verticals", "services", "projects", "knowledge", "careers", "contact"];
+      let currentSection = "home";
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          if (rect.top <= window.innerHeight / 2.5) {
+            currentSection = section;
+          }
+        }
+      }
+      setActiveSection("/#" + currentSection);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const publicLinks = [
-    { name: "Home",     href: "/",           icon: Home },
+    { name: "Home",     href: "/#home",      icon: Home },
+    { name: "About Us", href: "/#about",     icon: User },
+    { name: "Verticals",href: "/#verticals", icon: Briefcase },
     { name: "Services", href: "/#services",  icon: Briefcase },
     { name: "Projects", href: "/#projects",  icon: Briefcase },
-    { name: "About",    href: "/#about",     icon: User },
+    { name: "Knowledge",href: "/#knowledge", icon: FileText },
+    { name: "Careers",  href: "/#careers",   icon: User },
+    { name: "Contact",  href: "/#contact",   icon: FileText },
   ];
 
   const customerLinks = [
@@ -62,7 +89,7 @@ export default function Navigation() {
         <ul className="flex justify-between items-center h-14">
           {links.map((link) => {
             const Icon = link.icon;
-            const isActive = pathname === link.href;
+            const isActive = (pathname === "/" && link.href.startsWith("/#")) ? activeSection === link.href : pathname === link.href;
             return (
               <li key={link.name}>
                 <Link href={link.href} className={clsx("flex flex-col items-center justify-center space-y-1", isActive ? "text-navy" : "text-concrete hover:text-navy-deep")}>
@@ -87,11 +114,14 @@ export default function Navigation() {
                 </Link>
               </div>
               <div className="ml-10 flex space-x-8">
-                {links.map((link) => (
-                  <Link key={link.name} href={link.href} className={clsx("inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors", pathname === link.href ? "border-navy text-navy" : "border-transparent text-concrete hover:border-gray-300 hover:text-navy-deep")}>
-                    {link.name}
-                  </Link>
-                ))}
+                {links.map((link) => {
+                  const isActive = (pathname === "/" && link.href.startsWith("/#")) ? activeSection === link.href : pathname === link.href;
+                  return (
+                    <Link key={link.name} href={link.href} className={clsx("inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors", isActive ? "border-navy text-navy" : "border-transparent text-concrete hover:border-gray-300 hover:text-navy-deep")}>
+                      {link.name}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
             <div className="flex items-center">
