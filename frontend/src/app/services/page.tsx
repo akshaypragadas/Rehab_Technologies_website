@@ -64,15 +64,16 @@ export default function ServicesPage() {
           <div className="p-4 bg-danger/10 text-danger rounded-xl mb-6 text-sm font-medium">{error}</div>
         )}
 
-        {services.length === 0 && !error && (
-          <div className="text-center py-20 text-concrete">
-            <Wrench className="w-12 h-12 mx-auto mb-4 opacity-30" />
-            <p className="font-medium">No services available at the moment.</p>
-          </div>
-        )}
-
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {services.map((service, i) => {
+          {[
+            { id: 's1', name: "Condition Survey & Health Monitoring", description: "Data-driven insights for informed decisions on structural health.", icon: "ClipboardCheck" },
+            { id: 's2', name: "Investigation & Diagnosis", description: "Advanced NDT, material & structural investigation.", icon: "Search" },
+            { id: 's3', name: "Repair Engineering & Design", description: "Advanced solutions for durable results and restoration.", icon: "Wrench" },
+            { id: 's4', name: "Rehabilitation & Refurbishment", description: "Scientific solutions for enhancing load-carrying capacity & safety.", icon: "Shield" },
+            { id: 's5', name: "Waterproofing & Protection", description: "Protecting structures against severe seepage and extending life.", icon: "HomeIcon" },
+            { id: 's6', name: "Project Management & Quality Control", description: "Execution with sophisticated machinery and validated technicians.", icon: "LineChart" },
+            ...services
+          ].map((service, i) => {
             const Icon = iconMap[service.icon] || Wrench;
             const color = serviceColors[i % serviceColors.length];
             return (
