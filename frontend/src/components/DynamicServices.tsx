@@ -19,16 +19,7 @@ export default function DynamicServices() {
     return <div className="text-center text-concrete py-12">Loading services...</div>;
   }
 
-  const defaultServices = [
-    { id: 's1', name: "Condition Survey & Health Monitoring", description: "Data-driven insights for informed decisions on structural health.", icon: "ClipboardCheck" },
-    { id: 's2', name: "Investigation & Diagnosis", description: "Advanced NDT, material & structural investigation.", icon: "Search" },
-    { id: 's3', name: "Repair Engineering & Design", description: "Advanced solutions for durable results and restoration.", icon: "Wrench" },
-    { id: 's4', name: "Rehabilitation & Refurbishment", description: "Scientific solutions for enhancing load-carrying capacity & safety.", icon: "Shield" },
-    { id: 's5', name: "Waterproofing & Protection", description: "Protecting structures against severe seepage and extending life.", icon: "HomeIcon" },
-    { id: 's6', name: "Project Management & Quality Control", description: "Execution with sophisticated machinery and validated technicians.", icon: "LineChart" }
-  ];
-
-  const allServices = [...defaultServices, ...services];
+  const allServices = services;
 
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">

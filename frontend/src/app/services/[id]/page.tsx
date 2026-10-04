@@ -31,18 +31,8 @@ export default function RequestServicePage() {
     const token = sessionStorage.getItem("rehab_token") || localStorage.getItem("rehab_token");
     if (!token) { router.push("/login"); return; }
     
-    const defaultServices = [
-      { id: 's1', name: "Condition Survey & Health Monitoring", description: "Data-driven insights for informed decisions on structural health.", icon: "ClipboardCheck" },
-      { id: 's2', name: "Investigation & Diagnosis", description: "Advanced NDT, material & structural investigation.", icon: "Search" },
-      { id: 's3', name: "Repair Engineering & Design", description: "Advanced solutions for durable results and restoration.", icon: "Wrench" },
-      { id: 's4', name: "Rehabilitation & Refurbishment", description: "Scientific solutions for enhancing load-carrying capacity & safety.", icon: "Shield" },
-      { id: 's5', name: "Waterproofing & Protection", description: "Protecting structures against severe seepage and extending life.", icon: "HomeIcon" },
-      { id: 's6', name: "Project Management & Quality Control", description: "Execution with sophisticated machinery and validated technicians.", icon: "LineChart" }
-    ];
-
     apiGetServices().then((apiServices) => {
-      const allServices = [...defaultServices, ...apiServices];
-      const found = allServices.find((s: any) => s.id === params.id);
+      const found = apiServices.find((s: any) => s.id === params.id);
       if (!found) router.push("/services");
       else setService(found);
     });

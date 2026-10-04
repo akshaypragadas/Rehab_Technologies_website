@@ -355,15 +355,7 @@ export default function AdminPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {[
-                      { id: 's1', name: "Condition Survey & Health Monitoring", description: "Data-driven insights for informed decisions on structural health.", is_active: true, is_fixed: true },
-                      { id: 's2', name: "Investigation & Diagnosis", description: "Advanced NDT, material & structural investigation.", is_active: true, is_fixed: true },
-                      { id: 's3', name: "Repair Engineering & Design", description: "Advanced solutions for durable results and restoration.", is_active: true, is_fixed: true },
-                      { id: 's4', name: "Rehabilitation & Refurbishment", description: "Scientific solutions for enhancing load-carrying capacity & safety.", is_active: true, is_fixed: true },
-                      { id: 's5', name: "Waterproofing & Protection", description: "Protecting structures against severe seepage and extending life.", is_active: true, is_fixed: true },
-                      { id: 's6', name: "Project Management & Quality Control", description: "Execution with sophisticated machinery and validated technicians.", is_active: true, is_fixed: true },
-                      ...services
-                    ].map(service => (
+                    {services.map(service => (
                       <tr key={service.id} className="bg-white border-b border-gray-50 hover:bg-gray-50/50">
                         <td className="px-6 py-4 font-bold text-navy-deep flex items-center gap-2">
                           {service.name}
