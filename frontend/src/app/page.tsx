@@ -6,6 +6,8 @@ import VerticalsSection from "@/components/VerticalsSection";
 import KnowledgeSection from "@/components/KnowledgeSection";
 import CareersSection from "@/components/CareersSection";
 import DynamicServices from "@/components/DynamicServices";
+import ClientsSection from "@/components/ClientsSection";
+import TechnicalPapersSection from "@/components/TechnicalPapersSection";
 
 export default function Home() {
   const stats = [
@@ -45,90 +47,53 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full grid lg:grid-cols-2 gap-12 items-center py-12">
           
           {/* Left Column (Text) */}
-          <div className="max-w-2xl">
-            {/* Animated Badge */}
-            <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 backdrop-blur-md text-gold text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-8 shadow-xl">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-gold"></span>
-              </span>
-              Est. 2001 — 25 Years of Excellence
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-0.5 bg-gold"></div>
+              <span className="text-gold font-bold tracking-widest text-sm uppercase">REHAB TECHNOLOGIES</span>
             </div>
 
-            <h1 className="font-heading text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[1.05] tracking-tight mb-6 drop-shadow-2xl">
-              Engineering&apos;s<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold to-yellow-200">
-                Holistic Solutions
-              </span><br />
-              to Repairs & Life-Extension of Structures.
+            <h1 className="font-heading text-4xl md:text-5xl lg:text-[3.5rem] font-bold leading-[1.1] mb-6 uppercase tracking-wide">
+              ENGINEERING&apos;S HOLISTIC<br/>SOLUTIONS TO <span className="text-gold">REPAIRS &<br />LIFE-EXTENSION</span> OF STRUCTURES
             </h1>
 
-            <p className="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed font-light border-l-4 border-gold pl-6">
-              From Diagnosis to Repair. From Rehabilitation to Life Extension. Structures may age. Engineering can extend their life. Buildings | Industrial Assets | Infrastructure
+            <p className="text-lg md:text-xl text-gray-200 mb-8 font-serif">
+              From Diagnosis to Repair. From Rehabilitation to Life Extension.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link
-                href="/login"
-                className="group relative inline-flex items-center justify-center px-8 py-4 text-base font-bold rounded-xl text-navy-deep bg-gradient-to-r from-gold to-yellow-400 overflow-hidden shadow-[0_0_30px_rgba(232,169,60,0.3)] hover:shadow-[0_0_40px_rgba(232,169,60,0.5)] transition-all duration-300 hover:-translate-y-1"
-              >
-                <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-10"></span>
-                <span className="relative flex items-center">
-                  Login / Register
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </Link>
+            <div className="flex flex-wrap items-center gap-8 mb-10">
+              <div className="flex items-center gap-3">
+                <HomeIcon className="w-8 h-8 text-gold" />
+                <span className="font-medium text-sm tracking-wider uppercase">Buildings</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Wrench className="w-8 h-8 text-gold" />
+                <span className="font-medium text-sm tracking-wider uppercase">Industrial Assets</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <MapPin className="w-8 h-8 text-gold" />
+                <span className="font-medium text-sm tracking-wider uppercase">Infrastructure</span>
+              </div>
+            </div>
+
+            <div>
               <Link
                 href="#services"
-                className="inline-flex items-center justify-center px-8 py-4 border border-white/20 text-base font-bold rounded-xl text-white bg-white/5 hover:bg-white/10 hover:border-white/40 backdrop-blur-md transition-all duration-300"
+                className="inline-flex items-center justify-center px-8 py-4 text-base font-bold rounded bg-gradient-to-r from-gold to-yellow-500 text-navy-deep hover:from-yellow-400 hover:to-gold transition-colors shadow-lg"
               >
-                Explore Our Solutions
+                Explore Our Solutions <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
             </div>
           </div>
 
-          {/* Right Column (Glassmorphism Stats & Visuals) */}
-          <div className="hidden lg:grid grid-cols-2 gap-4 relative">
-            <div className="absolute -inset-10 bg-gold/5 blur-[100px] rounded-full pointer-events-none" />
-            
-            <div className="flex flex-col gap-4 translate-y-12">
-              <div className="bg-white/5 border border-white/10 backdrop-blur-xl rounded-2xl p-6 hover:bg-white/10 transition-colors">
-                <div className="w-12 h-12 bg-gradient-to-br from-gold to-yellow-600 rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-gold/20">
-                  <Search className="text-navy-deep w-6 h-6" />
-                </div>
-                <div className="font-mono text-4xl font-bold text-white mb-1">4000+</div>
-                <div className="text-xs text-gray-400 uppercase tracking-widest font-bold">Structures Assessed</div>
-              </div>
-              <div className="bg-white/5 border border-white/10 backdrop-blur-xl rounded-2xl p-6 hover:bg-white/10 transition-colors">
-                <div className="w-12 h-12 bg-gradient-to-br from-teal to-emerald-500 rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-teal/20">
-                  <Shield className="text-white w-6 h-6" />
-                </div>
-                <div className="font-mono text-4xl font-bold text-white mb-1">100%</div>
-                <div className="text-xs text-gray-400 uppercase tracking-widest font-bold">Safety Compliance</div>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-4">
-              <div className="bg-white/5 border border-white/10 backdrop-blur-xl rounded-2xl p-6 hover:bg-white/10 transition-colors">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-blue-500/20">
-                  <Wrench className="text-white w-6 h-6" />
-                </div>
-                <div className="font-mono text-4xl font-bold text-white mb-1">750+</div>
-                <div className="text-xs text-gray-400 uppercase tracking-widest font-bold">Projects Repaired</div>
-              </div>
-              
-              {/* Active Project Highlight */}
-              <div className="bg-gradient-to-br from-navy-deep to-[#051121] border border-gold/30 rounded-2xl p-6 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gold/10 blur-[30px]" />
-                <div className="text-[10px] text-gold font-bold uppercase tracking-widest mb-2 flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" /> Live Project
-                </div>
-                <div className="font-bold text-white mb-1">NH-44 Bridge Retrofit</div>
-                <div className="text-xs text-gray-400">Karnataka, India</div>
-                <div className="mt-4 h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                  <div className="h-full bg-gold rounded-full w-[70%]" />
-                </div>
-              </div>
+          {/* Right Column (Quote) */}
+          <div className="hidden lg:flex justify-end items-start h-full pt-10 relative">
+            <div className="max-w-sm text-right relative z-10">
+               <div className="text-6xl text-gold font-serif leading-none mb-[-20px] opacity-80 text-left">&ldquo;</div>
+               <p className="text-3xl font-serif text-white italic leading-snug text-left pl-6">
+                 Structures may age.<br />Engineering can<br />extend their life.&rdquo;
+               </p>
+               <div className="w-16 h-1 bg-gold ml-6 mt-6"></div>
             </div>
           </div>
         </div>
@@ -163,20 +128,18 @@ export default function Home() {
                   <div className="text-sm text-concrete">Established 2001</div>
                 </div>
               </div>
-              <h2 className="font-heading text-3xl md:text-4xl font-bold text-navy-deep mb-6">ABOUT US</h2>
+              <h2 className="font-heading text-3xl md:text-4xl font-bold text-navy-deep mb-6">OVERVIEW AND OPERATIONS</h2>
               <p className="text-gray-600 leading-relaxed mb-4">
                 Rehab Technologies, a national leader in engineering, design, and advisory services headquartered in Hyderabad, India. Recognized as a market leader in technology consulting services in Building, Industrial and Infrastructure sectors.
               </p>
               <p className="text-gray-600 leading-relaxed mb-6">
-                Operating across the country since 2001, we provide specialized engineering, design, and consulting services offering end-to-end solutions to clients.
+                Experts in providing specialized engineering, design, and consulting services for structural Repairs, Rehabilitation & Retrofitting with focused technology verticals like RBN, ISR and NIR, offering end-to-end solutions to clients in Building, Industrial and Infrastructure sectors, operating across the country since 2001 onward.
               </p>
               <ul className="space-y-3">
                 {[
                   "Engineering the structural repair, rehabilitation, and redesign.",
                   "Rectifying severe structural issues.",
-                  "Forensic Investigation & Failure Analysis.",
-                  "Construction Chemicals & Application Technology.",
-                  "Techno-Legal Consultancy & Dispute Support."
+                  "Forensic Investigation and Failure Analysis with Techno-Legal domain expertise, following high-profile failures."
                 ].map((pt, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <div className="w-5 h-5 bg-gold/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -193,14 +156,15 @@ export default function Home() {
                   <Image src="/ceo.png" alt="Dr. P. Srinivasa Reddy" fill className="object-cover object-top" unoptimized priority />
                 </div>
                 <div className="flex-1">
+                  <h3 className="font-heading text-2xl font-bold text-white mb-4">Leadership Team</h3>
                   <div className="text-gold font-heading text-5xl font-bold mb-0 leading-none">&ldquo;</div>
-                  <blockquote className="text-lg italic leading-relaxed text-gray-200 mb-6 relative z-10 -mt-2">
-                    Technology is not just about products, it&apos;s about creating solutions that add value, build trust and sustain business for tomorrow.
+                  <blockquote className="text-sm italic leading-relaxed text-gray-200 mb-6 relative z-10 -mt-2">
+                    A wise person goes beyond merely knowing the rules; it means a person knows how to react in a particular situation, how to analyse a situation and come to the right conclusion. Only those with experience in dealing with problems of various kinds will have professional proficiency, i.e. holistic knowledge.
                   </blockquote>
                   <div>
                     <div className="font-bold text-gold text-lg">Dr. P. Srinivasa Reddy</div>
-                    <div className="text-sm text-gray-400">CEO & Chief Consulting Engineer</div>
-                    <div className="text-xs text-gray-500 mt-1">Techno-Legal Expert (35 Years Exp)</div>
+                    <div className="text-xs text-gray-400">Professional profile: CEO & Chief Consulting Engineer</div>
+                    <div className="text-xs text-gray-500 mt-1">Companies worked with, Government Projects and Institutions associated</div>
                   </div>
                 </div>
               </div>
@@ -243,9 +207,9 @@ export default function Home() {
               </ul>
             </div>
             <div className="bg-navy-deep text-white p-10 rounded-2xl relative shadow-2xl shadow-navy-deep/20">
-              <div className="absolute top-8 left-8 text-gold/20 font-serif text-8xl leading-none">"</div>
+              <div className="absolute top-8 left-8 text-gold/20 font-serif text-8xl leading-none">&quot;</div>
               <blockquote className="relative z-10 text-xl font-medium leading-relaxed mb-6 italic">
-                Not just repairs, but a longer life. We pledge to extend the life of structures with science, experience & integrity.
+                Not just repairs, but a longer life. We pledge to extend the life of structures with science, experience &amp; integrity.
               </blockquote>
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-gold/20 rounded-full flex items-center justify-center text-gold border border-gold/50">
@@ -317,7 +281,9 @@ export default function Home() {
         </div>
       </section>
 
+      <ClientsSection />
       <KnowledgeSection />
+      <TechnicalPapersSection />
       <CareersSection />
 
       {/* Reach Us Section */}
@@ -374,6 +340,19 @@ export default function Home() {
               <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gold transition-colors" />
             </a>
           </div>
+
+          <div className="mt-12 bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+            <h3 className="font-heading text-2xl font-bold text-navy-deep mb-6">Send us a Message</h3>
+            <form className="space-y-4">
+              <div className="grid md:grid-cols-2 gap-4">
+                <input type="text" placeholder="Your Name" className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-gold" />
+                <input type="email" placeholder="Email Address" className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-gold" />
+              </div>
+              <input type="text" placeholder="Subject" className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-gold" />
+              <textarea placeholder="Your Message" rows={4} className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-gold resize-none"></textarea>
+              <button type="button" className="bg-navy-deep text-white px-8 py-3 rounded-lg font-bold hover:bg-gold transition-colors">Submit Request</button>
+            </form>
+          </div>
         </div>
       </section>
 
@@ -382,12 +361,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 grid md:grid-cols-3 gap-8">
           <div>
             <div className="flex items-center gap-2 mb-6">
-              <div className="w-8 h-8 bg-gold rounded-sm flex items-center justify-center text-navy-deep font-bold text-lg">
-                R
-              </div>
-              <span className="font-heading font-bold text-white tracking-wider text-xl">
-                REHAB TECHNOLOGIES
-              </span>
+              <Image src="/logomain.png" width={210} height={70} alt="Rehab Technologies" className="object-contain" />
             </div>
             <p className="text-sm">
               Engineering the Next Life of Structures.
@@ -404,9 +378,14 @@ export default function Home() {
           <div>
             <h4 className="font-bold text-white mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/services" className="hover:text-gold transition-colors">Our Services</Link></li>
-              <li><Link href="/login" className="hover:text-gold transition-colors">Client Login</Link></li>
-              <li><Link href="#contact" className="hover:text-gold transition-colors">Contact Us</Link></li>
+              <li><Link href="/#" className="hover:text-gold transition-colors">Home</Link></li>
+              <li><Link href="/#about" className="hover:text-gold transition-colors">About</Link></li>
+              <li><Link href="/#verticals" className="hover:text-gold transition-colors">Verticals</Link></li>
+              <li><Link href="/#services" className="hover:text-gold transition-colors">Services</Link></li>
+              <li><Link href="/#projects" className="hover:text-gold transition-colors">Projects</Link></li>
+              <li><Link href="/#knowledge" className="hover:text-gold transition-colors">Knowledge Centre</Link></li>
+              <li><Link href="/#careers" className="hover:text-gold transition-colors">Careers</Link></li>
+              <li><Link href="/#contact" className="hover:text-gold transition-colors">Contact</Link></li>
             </ul>
           </div>
         </div>

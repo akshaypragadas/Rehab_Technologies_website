@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiEmployeeLogin } from "@/lib/api";
 import { Lock, Phone, ChevronRight, UserCircle } from "lucide-react";
+import Image from "next/image";
 
 export default function EmployeeLoginPage() {
   const router = useRouter();
@@ -30,8 +31,10 @@ export default function EmployeeLoginPage() {
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
         <div className="bg-navy py-6 text-center">
           <div className="mx-auto w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white mb-3"><UserCircle className="w-6 h-6" /></div>
-          <h2 className="font-heading text-2xl font-bold text-white tracking-widest uppercase">Employee Portal</h2>
-          <p className="text-sm text-white/80 mt-1 font-medium">Rehab Technologies</p>
+          <h2 className="font-heading text-2xl font-bold text-white tracking-widest uppercase mb-2">Employee Portal</h2>
+          <div className="flex justify-center mt-2">
+            <Image src="/logomain.png" width={180} height={60} alt="Rehab Technologies" className="object-contain" />
+          </div>
         </div>
         <div className="p-8">
           {error && <div className="mb-6 p-3 bg-danger/10 text-danger text-sm font-medium rounded-lg border border-danger/20 text-center">{error}</div>}

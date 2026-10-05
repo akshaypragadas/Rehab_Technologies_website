@@ -1,4 +1,5 @@
 import { BookOpen, FileText, Briefcase, GraduationCap, Building } from "lucide-react";
+import Image from "next/image";
 
 export default function KnowledgeSection() {
   const cards = [
@@ -64,8 +65,9 @@ export default function KnowledgeSection() {
           <div className="bg-app-bg rounded-2xl p-8 border border-gray-200 flex flex-col justify-center">
             <div className="text-sm font-bold text-navy mb-2 uppercase tracking-widest">Strategic Partnership</div>
             <h3 className="font-heading text-2xl font-bold text-navy-deep mb-4">A&E InfraLegal Associates</h3>
+            <Image src="/logos/ae-infralegal.jpg" alt="A&E InfraLegal Associates" width={180} height={80} className="object-contain mix-blend-multiply mb-4" />
             <p className="text-gray-600 text-lg italic">
-              "Building stronger infrastructure. Creating lasting relationships."
+              &quot;Building stronger infrastructure. Creating lasting relationships.&quot;
             </p>
             <div className="mt-8 pt-6 border-t border-gray-200">
               <p className="text-sm font-bold text-navy-deep mb-1">From Conventional Thinking to Transformative Solutions:</p>

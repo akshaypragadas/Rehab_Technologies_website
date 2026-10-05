@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Home, Briefcase, FileText, User } from "lucide-react";
 import clsx from "clsx";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { apiLogout, apiAdminLogout } from "@/lib/api";
 
@@ -16,6 +17,7 @@ export default function Navigation() {
   const [activeSection, setActiveSection] = useState("/#home");
 
   useEffect(() => {
+    // eslint-disable-next-line
     setLoggedIn(!!(sessionStorage.getItem("rehab_token") || localStorage.getItem("rehab_token")));
     setAdminLoggedIn(!!(sessionStorage.getItem("rehab_admin_token") || localStorage.getItem("rehab_admin_token")));
     setRole(sessionStorage.getItem("rehab_role"));
@@ -24,7 +26,7 @@ export default function Navigation() {
   useEffect(() => {
     const handleScroll = () => {
       if (window.location.pathname !== "/") return;
-      const sections = ["home", "about", "verticals", "services", "projects", "knowledge", "careers", "contact"];
+      const sections = ["home", "about", "verticals", "services", "projects", "companies", "knowledge", "careers", "contact"];
       let currentSection = "home";
       for (const section of sections) {
         const element = document.getElementById(section);
@@ -44,14 +46,15 @@ export default function Navigation() {
   }, []);
 
   const publicLinks = [
-    { name: "Home",     href: "/#home",      icon: Home },
-    { name: "About Us", href: "/#about",     icon: User },
-    { name: "Verticals",href: "/#verticals", icon: Briefcase },
-    { name: "Services", href: "/#services",  icon: Briefcase },
-    { name: "Projects", href: "/#projects",  icon: Briefcase },
-    { name: "Knowledge",href: "/#knowledge", icon: FileText },
-    { name: "Careers",  href: "/#careers",   icon: User },
-    { name: "Contact",  href: "/#contact",   icon: FileText },
+    { name: "Home", href: "/#home", icon: Home },
+    { name: "About Us", href: "/#about", icon: User },
+    { name: "RBN", href: "/#verticals", icon: FileText },
+    { name: "Services", href: "/#services", icon: Briefcase },
+    { name: "Projects", href: "/#projects", icon: Briefcase },
+    { name: "Key Clients", href: "/#companies", icon: Briefcase },
+    { name: "Knowledge", href: "/#knowledge", icon: FileText },
+    { name: "Careers", href: "/#careers", icon: User },
+    { name: "Contact", href: "/#contact", icon: FileText },
   ];
 
   const customerLinks = [
@@ -102,22 +105,23 @@ export default function Navigation() {
         </ul>
       </nav>
 
+
+
       {/* Desktop Top Navigation */}
-      <nav className="hidden md:block fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <nav className="hidden md:block sticky top-0 left-0 right-0 bg-white border-b border-gray-200 z-50 shadow-sm">
+        <div className="max-w-[1400px] mx-auto px-4 lg:px-8">
           <div className="flex justify-between h-16">
-            <div className="flex">
-              <div className="flex-shrink-0 flex items-center">
+            <div className="flex items-center">
+              <div className="flex-shrink-0 flex items-center mr-6">
                 <Link href="/" className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-navy rounded-sm flex items-center justify-center text-gold font-bold text-lg">R</div>
-                  <span className="font-heading font-bold text-navy-deep tracking-wider text-xl">REHAB TECHNOLOGIES</span>
+                  <Image src="/logomain.png" width={180} height={60} alt="Rehab Technologies" className="object-contain" />
                 </Link>
               </div>
-              <div className="ml-10 flex space-x-8">
+              <div className="hidden lg:flex space-x-4 items-center">
                 {links.map((link) => {
                   const isActive = (pathname === "/" && link.href.startsWith("/#")) ? activeSection === link.href : pathname === link.href;
                   return (
-                    <Link key={link.name} href={link.href} className={clsx("inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors", isActive ? "border-navy text-navy" : "border-transparent text-concrete hover:border-gray-300 hover:text-navy-deep")}>
+                    <Link key={link.name} href={link.href} className={clsx("inline-flex items-center px-1 pt-1 border-b-2 text-[11px] uppercase tracking-wider font-bold transition-colors whitespace-nowrap", isActive ? "border-navy text-navy" : "border-transparent text-concrete hover:border-gray-300 hover:text-navy-deep")}>
                       {link.name}
                     </Link>
                   );

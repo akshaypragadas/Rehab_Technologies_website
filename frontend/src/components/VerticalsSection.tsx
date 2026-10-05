@@ -1,5 +1,6 @@
 import { Briefcase, Shield, Wrench, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function VerticalsSection() {
   return (
@@ -14,8 +15,8 @@ export default function VerticalsSection() {
             <div className="absolute top-0 right-0 w-2 h-full bg-gold transition-all duration-300 group-hover:w-4"></div>
             <div className="grid md:grid-cols-5 gap-8 items-center">
               <div className="md:col-span-2">
-                <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6 border border-blue-100">
-                  <Shield className="w-10 h-10" />
+                <div className="mb-4 flex">
+                  <Image src="/rbn_badge_new.jpg" width={100} height={100} alt="RBN" className="object-contain rounded-lg shadow-sm" />
                 </div>
                 <h2 className="font-heading text-4xl font-bold text-navy-deep mb-2">RBN</h2>
                 <div className="text-lg font-medium text-concrete mb-4">Repairing Buildings Nationally</div>
@@ -41,8 +42,8 @@ export default function VerticalsSection() {
           {/* ISR & NIR Cards */}
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-white rounded-3xl p-8 md:p-10 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-16 h-16 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center mb-6 border border-amber-100">
-                <Wrench className="w-8 h-8" />
+              <div className="mb-4 flex">
+                <Image src="/isr_badge_new.jpg" width={90} height={90} alt="ISR" className="object-contain rounded-lg shadow-sm" />
               </div>
               <h2 className="font-heading text-3xl font-bold text-navy-deep mb-2">ISR</h2>
               <div className="font-medium text-concrete mb-6">Industrial Structures Repairs</div>
@@ -52,8 +53,8 @@ export default function VerticalsSection() {
             </div>
 
             <div className="bg-white rounded-3xl p-8 md:p-10 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-16 h-16 bg-teal-50 text-teal-600 rounded-xl flex items-center justify-center mb-6 border border-teal-100">
-                <Briefcase className="w-8 h-8" />
+              <div className="mb-4 flex">
+                <Image src="/nir_badge_new.jpg" width={90} height={90} alt="NIR" className="object-contain rounded-lg shadow-sm" />
               </div>
               <h2 className="font-heading text-3xl font-bold text-navy-deep mb-2">NIR</h2>
               <div className="font-medium text-concrete mb-6">National Infrastructure Refurbishment</div>
