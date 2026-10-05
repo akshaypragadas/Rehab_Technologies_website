@@ -80,16 +80,8 @@ export default function ClientsSection() {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 items-center justify-items-center">
           {institutions.map((inst, i) => (
             <div key={i} className={`flex flex-col items-center justify-center p-4 w-full h-40 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all ${inst.hasBg ? 'bg-white' : 'bg-transparent'}`}>
-              {inst.missing ? (
-                <div className="text-center text-gray-400">
-                  <div className="font-bold border-2 border-dashed border-gray-300 rounded p-4">Missing Logo:<br/>{inst.name}</div>
-                </div>
-              ) : (
-                <>
-                  <Image src={`/logos/${inst.src}`} alt={inst.name} width={200} height={100} className="object-contain max-h-20 max-w-full mix-blend-multiply mb-3" />
-                  <span className="text-xs text-center font-bold text-gray-700 leading-tight">{inst.name}</span>
-                </>
-              )}
+              <Image src={`/logos/${inst.src}`} alt={inst.name} width={200} height={100} className="object-contain max-h-20 max-w-full mix-blend-multiply mb-3" />
+              <span className="text-xs text-center font-bold text-gray-700 leading-tight">{inst.name}</span>
             </div>
           ))}
         </div>
@@ -104,32 +96,16 @@ export default function ClientsSection() {
           <div className="animate-marquee whitespace-nowrap flex items-center space-x-12 group-hover:[animation-play-state:paused] pr-12 min-w-full flex-shrink-0">
             {clients.map((client, i) => (
               <div key={i} className={`inline-flex flex-col items-center justify-center w-56 h-40 p-4 rounded-xl flex-shrink-0 ${client.hasBg ? 'bg-white' : ''}`}>
-                {client.missing ? (
-                   <div className="text-center text-gray-400">
-                     <div className="font-bold border-2 border-dashed border-gray-500 rounded p-2 text-xs break-words whitespace-normal text-wrap max-w-full">Missing Logo:<br/>{client.name}</div>
-                   </div>
-                ) : (
-                  <>
-                    <Image src={`/logos/${client.src}`} alt={client.name} width={180} height={80} className={`object-contain max-h-16 w-auto filter grayscale hover:grayscale-0 transition-all duration-300 mb-3`} />
-                    <span className="text-[11px] font-bold text-gray-400 uppercase text-center whitespace-normal leading-tight">{client.name}</span>
-                  </>
-                )}
+                <Image src={`/logos/${client.src}`} alt={client.name} width={180} height={80} className={`object-contain max-h-16 w-auto filter grayscale hover:grayscale-0 transition-all duration-300 mb-3`} />
+                <span className="text-[11px] font-bold text-gray-400 uppercase text-center whitespace-normal leading-tight">{client.name}</span>
               </div>
             ))}
           </div>
           <div className="animate-marquee whitespace-nowrap flex items-center space-x-12 group-hover:[animation-play-state:paused] pr-12 min-w-full flex-shrink-0" aria-hidden="true">
             {clients.map((client, i) => (
               <div key={`dup-${i}`} className={`inline-flex flex-col items-center justify-center w-56 h-40 p-4 rounded-xl flex-shrink-0 ${client.hasBg ? 'bg-white' : ''}`}>
-                {client.missing ? (
-                   <div className="text-center text-gray-400">
-                     <div className="font-bold border-2 border-dashed border-gray-500 rounded p-2 text-xs break-words whitespace-normal text-wrap max-w-full">Missing Logo:<br/>{client.name}</div>
-                   </div>
-                ) : (
-                  <>
-                    <Image src={`/logos/${client.src}`} alt={client.name} width={180} height={80} className={`object-contain max-h-16 w-auto filter grayscale hover:grayscale-0 transition-all duration-300 mb-3`} />
-                    <span className="text-[11px] font-bold text-gray-400 uppercase text-center whitespace-normal leading-tight">{client.name}</span>
-                  </>
-                )}
+                <Image src={`/logos/${client.src}`} alt={client.name} width={180} height={80} className={`object-contain max-h-16 w-auto filter grayscale hover:grayscale-0 transition-all duration-300 mb-3`} />
+                <span className="text-[11px] font-bold text-gray-400 uppercase text-center whitespace-normal leading-tight">{client.name}</span>
               </div>
             ))}
           </div>
